@@ -14,6 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -44,13 +45,16 @@ class BookResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('cover'),
-                TextColumn::make('title')
+                TextColumn::make('title'),
+                IconColumn::make('is_published')->boolean(),
+                TextColumn::make('author.name')->label('Author'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
