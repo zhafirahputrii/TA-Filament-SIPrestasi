@@ -33,7 +33,8 @@ class BookResource extends Resource
             ->schema([
                 Select::make('author_id')
                     ->relationship('author', 'name'),
-                TextInput::make('title'),
+                TextInput::make('title')
+                ->required(),
                 RichEditor::make('description'),
                 FileUpload::make('cover'),
                 Toggle::make('is_published')
