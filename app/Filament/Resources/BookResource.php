@@ -46,7 +46,7 @@ class BookResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('cover'),
-                TextColumn::make('title'),
+                TextColumn::make('title')->searchable(),
                 IconColumn::make('is_published')->boolean(),
                 TextColumn::make('author.name')->label('Author'),
             ])
