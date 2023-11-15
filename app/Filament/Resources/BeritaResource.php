@@ -2,60 +2,61 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BookResource\Pages;
-use App\Filament\Resources\BookResource\RelationManagers;
-use App\Models\Book;
+use App\Filament\Resources\BeritaResource\Pages;
+use App\Filament\Resources\BeritaResource\RelationManagers;
+use App\Models\Berita;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BookResource extends Resource
+class BeritaResource extends Resource
 {
-    protected static ?string $model = Book::class;
+    protected static ?string $model = Berita::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
     public static function form(Form $form): Form
-    {                   
+    {
         return $form
             ->schema([
-                Select::make('author_id')
-                    ->relationship('author', 'name'),
-                TextInput::make('title')
-                ->required(),
-                RichEditor::make('description'),
-                FileUpload::make('cover'),
-                Toggle::make('is_published')
-            ]);
+                Section::make('Detail Berita')
+                ->schema([
+                TextInput::make('title')->required(),
+                Textarea::make('body')->required(),
+                RichEditor::make('deskripsi')
+                ])->columnSpan(2),
+                Section::make('Upload Foto')
+                ->schema([
+                FileUpload::make('photo')
+                ])->columnSpan(1),
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                ImageColumn::make('cover'),
-                TextColumn::make('title')->searchable(),
-                IconColumn::make('is_published')->boolean(),
-                TextColumn::make('author.name')->label('Author'),
+                TextColumn::make('title')->searchable()->sortable(),
+                TextColumn::make('body'),
+                ImageColumn::make('photo')
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -74,9 +75,9 @@ class BookResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBooks::route('/'),
-            'create' => Pages\CreateBook::route('/create'),
-            'edit' => Pages\EditBook::route('/{record}/edit'),
+            'index' => Pages\ListBeritas::route('/'),
+            'create' => Pages\CreateBerita::route('/create'),
+            //'edit' => Pages\EditBerita::route('/{record}/edit'),
         ];
     }    
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\AuthorResource\Pages;
+namespace App\Filament\Resources\BeritaResource\Pages;
 
-use App\Filament\Resources\AuthorResource;
+use App\Filament\Resources\BeritaResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditAuthor extends EditRecord
+class EditBerita extends EditRecord
 {
-    protected static string $resource = AuthorResource::class;
+    protected static string $resource = BeritaResource::class;
 
     protected function getHeaderActions(): array
     {
